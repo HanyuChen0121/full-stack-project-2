@@ -13,6 +13,9 @@ import ProductList from './pages/ProductList';
 import CreateProduct from './pages/CreateProduct';
 import ProductDetails from './pages/ProductDetails';
 import EditProduct from './pages/EditProduct';
+import Login from './pages/Login';
+import OnBoarding from './pages/OnBoarding';
+import EmployeeManagement from './pages/EmployeeManagement';
 function App() {
   return (
     <Router>
@@ -21,10 +24,11 @@ function App() {
         <Routes>
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/" element={<Login />} />
           <Route path="/update-password" element={<UpdatePasswordPage />} />
           <Route path="/send-email" element={<SendEmailPage />} />
           <Route path="/CreateProduct" element={<CreateProduct />} />
-          <Route path="/" element={<ProductList />} />
+          <Route path="/On" element={<EmployeeManagement />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/product/edit/:id" element={<EditProduct />} />
         </Routes>

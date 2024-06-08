@@ -96,6 +96,7 @@ code {
 .modal-content {
   width: 50%;
 }
+
 /* Media query for smaller screens */
 @media (max-width: 768px) {
   .product-item {
