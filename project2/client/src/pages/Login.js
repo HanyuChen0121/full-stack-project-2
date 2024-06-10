@@ -1,74 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-// Secure storage for tokens (replace with your preferred solution)
-const secureStorage = window.localStorage; // Example using localStorage
-
-const Login = () => {
-  const [username, setUsername] = useState('');
+const LoginPage = () => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  // Check for existing token on initial render or refresh
-  useEffect(() => {
-    const token = secureStorage.getItem('token');
-    if (token) {
-      // Redirect to protected content if token is valid
-       // Replace with your protected route
-    }
-  }, []);
+  const handleLogin = (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Implement secure authentication logic here (replace with your API call)
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
-
-    if (!response.ok) {
-      setErrorMessage('Invalid username or password');
-      return;
-    }
-
-    const data = await response.json();
-    const token = data.token; // Assuming successful login returns a token
-
-    // Store token securely (e.g., encrypted local storage)
-    secureStorage.setItem('token', token);
-
-    // Redirect to protected content
-    // Replace with your protected route
+    axios
+      .post('http://localhost:5000/api/users/login', { email, password })
+      .then((response) => {
+        setMessage(response.data.message);
+        // Assume the response contains a token if login is successful
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+          navigate('/Onboarding'); // Redirect to the dashboard or another protected route
+        }
+      })
+      .catch((error) => {
+        setMessage(error.response.data.message);
+      });
   };
 
   return (
     <div className="login-page">
-      <h2>Employee Management Project 3</h2>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            type="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Login
+        </button>
       </form>
+      {message && <p>{message}</p>}
     </div>
   );
-}
+};
 
-export default Login;
+export default LoginPage;

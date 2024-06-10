@@ -16,6 +16,7 @@ import EditProduct from './pages/EditProduct';
 import Login from './pages/Login';
 import OnBoarding from './pages/OnBoarding';
 import EmployeeManagement from './pages/EmployeeManagement';
+import RegisterPage from './pages/RegisterPage';
 function App() {
   return (
     <Router>
@@ -31,6 +32,8 @@ function App() {
           <Route path="/On" element={<EmployeeManagement />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/product/edit/:id" element={<EditProduct />} />
+          <Route path="/register" element={<RegisterPage />} /> {/* Add RegisterPage route */}
+          <Route path="/Onboarding" element={<OnBoarding />} /> {/* Add RegisterPage route */}
         </Routes>
       </div>
       <Footer />
