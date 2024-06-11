@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 const ApplicationData = require('../models/applicationData');
 const bcrypt = require('bcrypt');
-
+const { dispatchUserId } = require('../../client/src/components/dispatchActions');
 // User registration route
 router.post('/register', async (req, res) => {
     const { email, username, password } = req.body;
@@ -46,10 +46,6 @@ router.post('/login', async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
-
-        // Generate JWT token for user
-        // Here you can optionally generate a token if needed
-        // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.json({ message: 'Login successful' });
     } catch (error) {

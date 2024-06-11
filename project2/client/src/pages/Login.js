@@ -12,19 +12,19 @@ const LoginPage = () => {
     e.preventDefault();
 
     axios
-      .post('http://localhost:5000/api/users/login', { email, password })
-      .then((response) => {
+    .post('http://localhost:5000/api/users/login', { email, password })
+    .then((response) => {
+      if (response.data) {
         setMessage(response.data.message);
-        // Assume the response contains a token if login is successful
-        if (response.data.token) {
-          localStorage.setItem('token', response.data.token);
-          navigate('/Onboarding'); // Redirect to the dashboard or another protected route
-        }
-      })
-      .catch((error) => {
-        setMessage(error.response.data.message);
-      });
-  };
+      }
+      if (response.data) {
+        navigate('/Onboarding'); // Redirect to the dashboard or another protected route
+      }
+    })
+    .catch((error) => {
+      setMessage(error.response.data.message);
+    });
+};
 
   return (
     <div className="login-page">

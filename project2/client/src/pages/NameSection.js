@@ -1,19 +1,13 @@
+// src/components/NameSection.js
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateName, setEmployeeData } from '../reducers/employeeSlice';
 
 function NameSection() {
+  const dispatch = useDispatch();
+  const formData = useSelector((state) => state.employee);
+  
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    preferredName: '',
-    profilePicture: null,
-    email: '',
-    ssn: '',
-    dob: '',
-    gender: '',
-  });
-
   const [originalData, setOriginalData] = useState(formData);
 
   const handleEditClick = () => {
@@ -27,14 +21,15 @@ function NameSection() {
 
   const handleCancelClick = () => {
     if (window.confirm('Discard all changes?')) {
-      setFormData(originalData);
+      dispatch(setEmployeeData(originalData));
       setIsEditing(false);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    dispatch(updateName({ name, value }));
+    console.log('Redux state:', formData);
   };
 
   return (
@@ -67,7 +62,7 @@ function NameSection() {
       <div>
         <label>
           Profile Picture:
-          <input type="file" name="profilePicture" onChange={(e) => setFormData({ ...formData, profilePicture: e.target.files[0] })} disabled={!isEditing} />
+          <input type="file" name="profilePicture" onChange={(e) => dispatch(updateName({ name: 'profilePicture', value: e.target.files[0] }))} disabled={!isEditing} />
         </label>
       </div>
       <div>

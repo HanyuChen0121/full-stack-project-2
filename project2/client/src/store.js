@@ -1,28 +1,25 @@
-import { createStore, combineReducers } from 'redux';
-import authReducer from './reducers/authReducer';
-import cartReducer from './reducers/cartReducer';
+// src/app/store.js
+import { configureStore } from '@reduxjs/toolkit';
+import employeeReducer from './reducers/employeeSlice';
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-  cart: cartReducer,
-});
-const storedCartItems = localStorage.getItem('cartItems');
-const storedTotalPrice = localStorage.getItem('totalPrice');
+// Load state from localStorage
+const storedEmployeeData = localStorage.getItem('employeeData');
 const persistedState = {
-  auth: {
-    userId: localStorage.getItem('userId') || null,
-    token: localStorage.getItem('token') || null,
-  },
-  cart: {
-    cartItems: storedCartItems ? JSON.parse(storedCartItems) : [],
-    totalPrice: storedTotalPrice ? JSON.parse(storedTotalPrice) : 0, // Assuming totalPrice is not stored in localStorage
-  }
+  employee: storedEmployeeData ? JSON.parse(storedEmployeeData) : undefined,
 };
 
-const store = createStore(
-  rootReducer,
-  persistedState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store = configureStore({
+  reducer: {
+    employee: employeeReducer,
+  },
+  preloadedState: persistedState,
+  devTools: process.env.NODE_ENV !== 'production',
+});
+
+// Subscribe to store updates to persist state changes to localStorage
+store.subscribe(() => {
+  const state = store.getState();
+  localStorage.setItem('employeeData', JSON.stringify(state.employee));
+});
 
 export default store;
