@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import '../index.css';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../actions/cartActions';
+import { addToCart } from '../actions/cartActions.js';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 const ProductDetails = ({ products, cartItems }) => {

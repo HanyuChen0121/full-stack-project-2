@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import '../index.css';
-import Cart from './Cart';
+import Cart from './Cart.js';
 import { connect } from 'react-redux';
-import { addToCart } from '../actions/cartActions';
+import { addToCart } from '../actions/cartActions.js';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { Prev } from 'react-bootstrap/esm/PageItem';
+import { Prev } from 'react-bootstrap/esm/PageItem.js';
 const ProductList = ({cartItems}) => {
 
     const dispatch = useDispatch();

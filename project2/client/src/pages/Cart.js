@@ -1,7 +1,7 @@
 import React, { useEffect, useState,  } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux'; // Import connect
-import { updateTotalPrice, removeFromCart, addToCart  } from '../actions/cartActions';
+import { updateTotalPrice, removeFromCart, addToCart  } from '../actions/cartActions.js';
 import { useDispatch } from 'react-redux';
 const Cart = ({ cartItems, handleClose, show, updateTotalPrice, totalPrice, removeFromCart  }) => {
     const dispatch = useDispatch();

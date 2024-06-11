@@ -1,33 +1,52 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateContact } from '../reducers/employeeSlice.js'; // Adjust the path as necessary
 
 function ContactInfoSection() {
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    cellPhone: '',
-    workPhone: '',
-  });
+  const dispatch = useDispatch();
 
-  const [originalData, setOriginalData] = useState(formData);
+  const cellPhone = useSelector((state) => state.employee.cellPhone);
+  const workPhone = useSelector((state) => state.employee.workPhone);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [cellPhoneState, setCellPhoneState] = useState(cellPhone);
+  const [workPhoneState, setWorkPhoneState] = useState(workPhone);
+
+  useEffect(() => {
+    setCellPhoneState(cellPhone);
+    setWorkPhoneState(workPhone);
+  }, [cellPhone, workPhone]);
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
   const handleSaveClick = () => {
-    setOriginalData(formData);
+    if (cellPhone !== cellPhoneState) {
+      dispatch(updateContact({ name: 'cellPhone', value: cellPhoneState }));
+    }
+    if (workPhone !== workPhoneState) {
+      dispatch(updateContact({ name: 'workPhone', value: workPhoneState }));
+    }
     setIsEditing(false);
   };
 
   const handleCancelClick = () => {
     if (window.confirm('Discard all changes?')) {
-      setFormData(originalData);
+      setCellPhoneState(cellPhone);
+      setWorkPhoneState(workPhone);
       setIsEditing(false);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === 'cellPhone') {
+      setCellPhoneState(value);
+    } else if (name === 'workPhone') {
+      setWorkPhoneState(value);
+    }
   };
 
   return (
@@ -36,13 +55,13 @@ function ContactInfoSection() {
       <div>
         <label>
           Cell Phone Number:
-          <input type="text" name="cellPhone" value={formData.cellPhone} onChange={handleChange} disabled={!isEditing} />
+          <input type="text" name="cellPhone" value={cellPhoneState} onChange={handleChange} disabled={!isEditing} />
         </label>
       </div>
       <div>
         <label>
           Work Phone Number:
-          <input type="text" name="workPhone" value={formData.workPhone} onChange={handleChange} disabled={!isEditing} />
+          <input type="text" name="workPhone" value={workPhoneState} onChange={handleChange} disabled={!isEditing} />
         </label>
       </div>
       {isEditing ? (

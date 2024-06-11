@@ -1,6 +1,12 @@
+// EmploymentSection.js
+
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateEmployment } from '../reducers/employeeSlice.js'; // Adjust the path as necessary
 
 function EmploymentSection() {
+  const dispatch = useDispatch();
+
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     visaTitle: '',
@@ -8,13 +14,21 @@ function EmploymentSection() {
     endDate: '',
   });
 
-  const [originalData, setOriginalData] = useState(formData);
+  const employmentData = useSelector((state) => ({
+    visaTitle: state.employee.visaTitle,
+    startDate: state.employee.visaStartDate,
+    endDate: state.employee.visaEndDate,
+  }));
+
+  const [originalData, setOriginalData] = useState(employmentData);
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
   const handleSaveClick = () => {
+    dispatch(updateEmployment(formData));
+    console.log(formData);
     setOriginalData(formData);
     setIsEditing(false);
   };

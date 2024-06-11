@@ -1,6 +1,6 @@
 // src/app/store.js
 import { configureStore } from '@reduxjs/toolkit';
-import employeeReducer from './reducers/employeeSlice';
+import employeeReducer from './reducers/employeeSlice.js';
 
 // Load state from localStorage
 const storedEmployeeData = localStorage.getItem('employeeData');

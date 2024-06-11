@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser, setUserType } from '../actions/authActions';
+import { setUser, setUserType } from '../actions/authActions.js';
 import { useNavigate } from 'react-router-dom';
 
 const AuthForm = ({ action }) => {

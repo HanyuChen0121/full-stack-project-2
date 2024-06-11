@@ -17,6 +17,7 @@ const initialState = {
   cellPhone: '',
   workPhone: '',
   email: '',
+  isUSCitizen: '',
   ssn: '',
   dob: '',
   gender: '',
@@ -34,16 +35,14 @@ const initialState = {
     email: '',
     relationship: '',
   },
-  emergencyContacts: [
-    {
-      firstName: '',
-      lastName: '',
-      middleName: '',
-      phone: '',
-      email: '',
-      relationship: '',
-    },
-  ],
+  emergencyContact: { // Only one emergency contact
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    phone: '',
+    email: '',
+    relationship: '',
+  },
   documents: [],
 };
 
@@ -66,23 +65,12 @@ const employeeSlice = createSlice({
       const { name, value } = action.payload;
       state[name] = value;
     },
-    updateReference(state, action) {
-      const { name, value } = action.payload;
-      state.reference[name] = value;
-    },
+    
     updateEmergencyContact(state, action) {
-      const { index, name, value } = action.payload;
-      state.emergencyContacts[index][name] = value;
+        state.emergencyContact = { ...state.emergencyContact, ...action.payload };
     },
-    addEmergencyContact(state) {
-      state.emergencyContacts.push({
-        firstName: '',
-        lastName: '',
-        middleName: '',
-        phone: '',
-        email: '',
-        relationship: '',
-      });
+    updateReference(state, action) {
+        state.reference = { ...state.reference, ...action.payload };
     },
     removeEmergencyContact(state, action) {
       state.emergencyContacts.splice(action.payload, 1);
@@ -96,6 +84,25 @@ const employeeSlice = createSlice({
     updateUserId(state, action) {
       state.userId = action.payload;
     },
+    updateUserEmail(state, action) {
+        state.email = action.payload;
+    },
+    updateEmployment(state, action) {
+        const { visaTitle, startDate, endDate } = action.payload;
+        state.visaTitle = visaTitle;
+        state.visaStartDate = startDate;
+        state.visaEndDate = endDate;
+    },
+    updateWorkAuthorization(state, action) {
+        const { workAuthorization, visaTitle, optReceipt } = action.payload;
+        state.workAuthorization = workAuthorization;
+        state.visaTitle = visaTitle;
+        state.optReceipt = optReceipt;
+    },
+    updateCitizenshipStatus(state, action) {
+        const { isUSCitizen } = action.payload;
+        state.isUSCitizen = isUSCitizen;
+    },
   },
 });
 
@@ -106,11 +113,14 @@ export const {
   updateContact,
   updateReference,
   updateEmergencyContact,
-  addEmergencyContact,
   removeEmergencyContact,
   addDocument,
   removeDocument,
   updateUserId, // Include the new action
+  updateUserEmail,
+  updateEmployment,
+  updateWorkAuthorization, 
+  updateCitizenshipStatus,
 } = employeeSlice.actions;
 
 export default employeeSlice.reducer;

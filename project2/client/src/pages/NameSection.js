@@ -1,7 +1,7 @@
 // src/components/NameSection.js
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateName, setEmployeeData } from '../reducers/employeeSlice';
+import { updateName, setEmployeeData } from '../reducers/employeeSlice.js';
 
 function NameSection() {
   const dispatch = useDispatch();

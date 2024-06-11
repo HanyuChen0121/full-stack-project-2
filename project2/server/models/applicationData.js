@@ -27,7 +27,7 @@ const emergencyContactSchema = new mongoose.Schema({
 });
 
 const applicationDataSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
   firstName: String,
   lastName: String,
   middleName: String,
@@ -46,6 +46,7 @@ const applicationDataSchema = new mongoose.Schema({
   visaTitle: String,
   visaStartDate: Date,
   visaEndDate: Date,
+  isUSCitizen: String,
   reference: referenceSchema,
   emergencyContacts: [emergencyContactSchema],
   documents: [String], // URLs or file paths for uploaded documents

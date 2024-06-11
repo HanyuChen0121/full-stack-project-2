@@ -3,20 +3,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-import SignInPage from './pages/SignInPage';
-import SignUpPage from './pages/SignUpPage';
-import UpdatePasswordPage from './pages/UpdatePasswordPage';
-import SendEmailPage from './pages/SendEmailPage';
-import ProductList from './pages/ProductList';
-import CreateProduct from './pages/CreateProduct';
-import ProductDetails from './pages/ProductDetails';
-import EditProduct from './pages/EditProduct';
-import Login from './pages/Login';
-import OnBoarding from './pages/OnBoarding';
-import EmployeeManagement from './pages/EmployeeManagement';
-import RegisterPage from './pages/RegisterPage';
+import Header from './components/Header.js';
+import Footer from './components/Footer.js';
+import SignInPage from './pages/SignInPage.js';
+import SignUpPage from './pages/SignUpPage.js';
+import UpdatePasswordPage from './pages/UpdatePasswordPage.js';
+import SendEmailPage from './pages/SendEmailPage.js';
+import ProductList from './pages/ProductList.js';
+import CreateProduct from './pages/CreateProduct.js';
+import ProductDetails from './pages/ProductDetails.js';
+import EditProduct from './pages/EditProduct.js';
+import Login from './pages/Login.js';
+import OnBoarding from './pages/OnBoarding.js';
+import EmployeeManagement from './pages/EmployeeManagement.js';
+import RegisterPage from './pages/RegisterPage.js';
 function App() {
   return (
     <Router>

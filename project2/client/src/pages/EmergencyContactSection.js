@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateEmergencyContact } from '../reducers/employeeSlice.js'; // Adjust the path as necessary
 
 function EmergencyContactSection() {
+  const dispatch = useDispatch();
+
+  const emergencyContacts = useSelector((state) => state.employee.emergencyContacts);
+
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -18,6 +24,7 @@ function EmergencyContactSection() {
   };
 
   const handleSaveClick = () => {
+    dispatch(updateEmergencyContact(formData));
     setOriginalData(formData);
     setIsEditing(false);
   };
@@ -37,42 +44,46 @@ function EmergencyContactSection() {
   return (
     <div>
       <h2>Emergency Contact</h2>
-      <div>
-        <label>
-          First Name:
-          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} disabled={!isEditing} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Last Name:
-          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} disabled={!isEditing} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Middle Name:
-          <input type="text" name="middleName" value={formData.middleName} onChange={handleChange} disabled={!isEditing} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Phone:
-          <input type="text" name="phone" value={formData.phone} onChange={handleChange} disabled={!isEditing} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Email:
-          <input type="email" name="email" value={formData.email} onChange={handleChange} disabled={!isEditing} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Relationship:
-          <input type="text" name="relationship" value={formData.relationship} onChange={handleChange} disabled={!isEditing} />
-        </label>
-      </div>
+      {emergencyContacts.map((contact, index) => (
+        <div key={index}>
+          <div>
+            <label>
+              First Name:
+              <input type="text" name="firstName" value={contact.firstName} onChange={(e) => dispatch(updateEmergencyContact({ index, name: e.target.name, value: e.target.value }))} disabled={!isEditing} />
+            </label>
+          </div>
+          <div>
+            <label>
+              Last Name:
+              <input type="text" name="lastName" value={contact.lastName} onChange={(e) => dispatch(updateEmergencyContact({ index, name: e.target.name, value: e.target.value }))} disabled={!isEditing} />
+            </label>
+          </div>
+          <div>
+            <label>
+              Middle Name:
+              <input type="text" name="middleName" value={contact.middleName} onChange={(e) => dispatch(updateEmergencyContact({ index, name: e.target.name, value: e.target.value }))} disabled={!isEditing} />
+            </label>
+          </div>
+          <div>
+            <label>
+              Phone:
+              <input type="text" name="phone" value={contact.phone} onChange={(e) => dispatch(updateEmergencyContact({ index, name: e.target.name, value: e.target.value }))} disabled={!isEditing} />
+            </label>
+          </div>
+          <div>
+            <label>
+              Email:
+              <input type="email" name="email" value={contact.email} onChange={(e) => dispatch(updateEmergencyContact({ index, name: e.target.name, value: e.target.value }))} disabled={!isEditing} />
+            </label>
+          </div>
+          <div>
+            <label>
+              Relationship:
+              <input type="text" name="relationship" value={contact.relationship} onChange={(e) => dispatch(updateEmergencyContact({ index, name: e.target.name, value: e.target.value }))} disabled={!isEditing} />
+            </label>
+          </div>
+        </div>
+      ))}
       {isEditing ? (
         <div>
           <button onClick={handleSaveClick}>Save</button>

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { updateUserEmail } from '../reducers/employeeSlice.js';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -18,6 +19,7 @@ const LoginPage = () => {
         setMessage(response.data.message);
       }
       if (response.data) {
+        dispatch(updateUserEmail(email));
         navigate('/Onboarding'); // Redirect to the dashboard or another protected route
       }
     })
