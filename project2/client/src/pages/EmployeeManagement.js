@@ -1,5 +1,3 @@
-// EmployeeManagement.js
-
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NameSection from './NameSection.js';
@@ -8,15 +6,17 @@ import ContactInfoSection from './ContactInfoSection.js';
 import EmploymentSection from './EmploymentSection.js';
 import EmergencyContactSection from './EmergencyContactSection.js';
 import DocumentsSection from './DocumentsSection.js';
-import VisaStatusManagement from './VisaStatusManagement.js';
+import VisaStatus from './VisaStatus.js';
 import WorkAuthorizationQuestion from './WorkAuthorizationQuestion.js';
 import Reference from './Reference.js';
-import { updateUserId } from '../reducers/employeeSlice.js'; // Adjust the path as per your project structure
+import { updateUserId } from '../reducers/employeeSlice.js';
+import DocumentUploadPage from './DocumentUploadPage.js';
+import '../index.css'; // Import the CSS file
 
 function EmployeeManagement() {
   const dispatch = useDispatch();
   const userData = useSelector(state => state.employee);
-  // Assume you have a function to handle sign-in and receive the user ID
+
   const handleSubmit = async () => {
     try {
       // Send the userData to the backend route '/saveData'
@@ -40,18 +40,19 @@ function EmployeeManagement() {
   };
 
   return (
-    <div>
-      <h1>Employee Management</h1>
-      <NameSection />
-      <AddressSection />
-      <ContactInfoSection />
-      <EmploymentSection />
-      <EmergencyContactSection />
-      <WorkAuthorizationQuestion/>
-      <DocumentsSection />
-      <VisaStatusManagement />
-      <Reference />
-      <button onClick={handleSubmit}>Submit</button>
+    <div className="employee-management-container">
+      <h1 className="section-title">Employee Management</h1>
+      <NameSection className="section" />
+      <AddressSection className="section" />
+      <ContactInfoSection className="section" />
+      <EmploymentSection className="section" />
+      <EmergencyContactSection className="section" />
+      <WorkAuthorizationQuestion className="section" />
+      <DocumentsSection className="section" />
+      <DocumentUploadPage className="section" />
+      <VisaStatus className="section" />
+      <Reference className="section" />
+      <button className="button" onClick={handleSubmit}>Submit</button>
     </div>
   );
 }

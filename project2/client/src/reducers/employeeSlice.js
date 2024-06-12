@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   userId: '',
+  role: '',
   firstName: '',
   lastName: '',
   middleName: '',
@@ -103,6 +104,9 @@ const employeeSlice = createSlice({
         const { isUSCitizen } = action.payload;
         state.isUSCitizen = isUSCitizen;
     },
+    resetState(state) {
+      return initialState;
+    }
   },
 });
 
@@ -121,6 +125,7 @@ export const {
   updateEmployment,
   updateWorkAuthorization, 
   updateCitizenshipStatus,
+  resetState,
 } = employeeSlice.actions;
 
 export default employeeSlice.reducer;

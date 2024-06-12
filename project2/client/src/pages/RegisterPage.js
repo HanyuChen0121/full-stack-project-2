@@ -42,7 +42,7 @@ const RegisterPage = () => {
       .post('http://localhost:5000/api/users/register', { email, username, password })
       .then((response) => {
         setMessage(response.data.message);
-        navigate('/login'); // Redirect to login page on successful registration
+        navigate('/'); // Redirect to login page on successful registration
       })
       .catch((error) => {
         setMessage(error.response.data.message);

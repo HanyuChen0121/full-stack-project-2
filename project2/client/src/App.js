@@ -17,10 +17,16 @@ import Login from './pages/Login.js';
 import OnBoarding from './pages/OnBoarding.js';
 import EmployeeManagement from './pages/EmployeeManagement.js';
 import RegisterPage from './pages/RegisterPage.js';
+import EmployeeProfiles from './pages/EmployeeProfiles.js';
+import EmployeeProfile from './pages/EmployeeProfile.js';
+import VisaStatusManagement from './pages/VisaStatusManagement.js';
+import HiringManagement from './pages/HiringManagement.js';
+import { useSelector } from 'react-redux'; // Import useSelector hook
 function App() {
+  const userEmail = useSelector(state => state.employee.email); // Access email from Redux store
   return (
     <Router>
-      <Header />
+      {userEmail && <Header />} 
       <div className="container mt-4">
         <Routes>
           <Route path="/signin" element={<SignInPage />} />
@@ -29,12 +35,15 @@ function App() {
           <Route path="/update-password" element={<UpdatePasswordPage />} />
           <Route path="/send-email" element={<SendEmailPage />} />
           <Route path="/CreateProduct" element={<CreateProduct />} />
-          <Route path="/On" element={<EmployeeManagement />} />
+          <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/product/edit/:id" element={<EditProduct />} />
           <Route path="/register" element={<RegisterPage />} /> {/* Add RegisterPage route */}
-          <Route path="/Onboarding" element={<OnBoarding />} /> {/* Add RegisterPage route */}
-        </Routes>
+          <Route path="/EmployeeProfiles" element={<EmployeeProfiles />} /> {/* Add RegisterPage route */}
+          <Route path="/profile/:id" element={<EmployeeProfile />} />
+          <Route path="/VisaStatusManagement" element={<VisaStatusManagement />} />
+          <Route path="HiringManagement" element={<HiringManagement />} />
+        </Routes> 
       </div>
       <Footer />
     </Router>

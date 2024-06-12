@@ -1,65 +1,80 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addDocument } from '../reducers/employeeSlice.js'; // Adjust the path as necessary
 
-const DocumentUploadPage = ({ user }) => {
-  const [optReceiptStatus, setOptReceiptStatus] = useState('pending'); // can be 'pending', 'approved', 'rejected'
-  const [optEadStatus, setOptEadStatus] = useState(null); // can be 'pending', 'approved', 'rejected'
-  const [i983Status, setI983Status] = useState(null); // can be 'pending', 'approved', 'rejected'
-  const [i20Status, setI20Status] = useState(null); // can be 'pending', 'approved', 'rejected'
-  const [hrFeedback, setHrFeedback] = useState('');
+function DocumentUploadPage() {
+  const dispatch = useDispatch();
 
-  const handleUpload = (documentType) => {
-    // Implement the file upload logic here, 
-    // update the state and handle the HR feedback logic as needed.
+  // Fetch necessary data from Redux store
+  const {
+    optReceiptStatus,
+    optEADStatus,
+    i983Status,
+    i20Status,
+    HRFeedback // Assuming you have HR feedback stored in the Redux store
+  } = useSelector((state) => state.employee);
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
   };
 
-  if (user.onboardingApplication !== 'OPT') {
-    return <div>This page is not available for your visa type.</div>;
-  }
+  const handleUpload = () => {
+    if (file) {
+      // Perform upload logic here, e.g., using axios or another HTTP client
+      // After successful upload, dispatch action to update Redux store
+      dispatch(addDocument(file));
+
+      // Optional: Clear the file input after upload
+      setFile(null);
+    }
+  };
 
   return (
     <div>
-      <h2>Work Authorization Document Management</h2>
+      <h2>Document Management</h2>
 
+      {/* OPT Receipt */}
       <div>
         <h3>OPT Receipt</h3>
-        {optReceiptStatus === 'pending' && <p>Waiting for HR to approve your OPT Receipt.</p>}
-        {optReceiptStatus === 'approved' && <p>Please upload a copy of your OPT EAD.</p>}
-        {optReceiptStatus === 'rejected' && <p>HR Feedback: {hrFeedback}</p>}
+        {optReceiptStatus === 'pending' && (
+          <p>Waiting for HR to approve your OPT Receipt</p>
+        )}
+        {optReceiptStatus === 'approved' && (
+          <p>Please upload a copy of your OPT EAD</p>
+        )}
+        {optReceiptStatus === 'rejected' && (
+          <p>HR's feedback: {HRFeedback}</p>
+        )}
       </div>
 
-      {optReceiptStatus === 'approved' && (
-        <div>
-          <h3>OPT EAD</h3>
-          {optEadStatus === null && <button onClick={() => handleUpload('optEad')}>Upload OPT EAD</button>}
-          {optEadStatus === 'pending' && <p>Waiting for HR to approve your OPT EAD.</p>}
-          {optEadStatus === 'approved' && <p>Please download and fill out the I-983 form.</p>}
-          {optEadStatus === 'rejected' && <p>HR Feedback: {hrFeedback}</p>}
-        </div>
-      )}
+      {/* OPT EAD */}
+      <div>
+        <h3>OPT EAD</h3>
+        {/* Similar logic for displaying status */}
+      </div>
 
-      {optEadStatus === 'approved' && (
-        <div>
-          <h3>I-983</h3>
-          <a href="/path/to/empty-template.pdf" download>Empty Template</a>
-          <a href="/path/to/sample-template.pdf" download>Sample Template</a>
-          <button onClick={() => handleUpload('i983')}>Upload Filled Out I-983</button>
-          {i983Status === 'pending' && <p>Waiting for HR to approve and sign your I-983.</p>}
-          {i983Status === 'approved' && <p>Please send the I-983 along with all necessary documents to your school and upload the new I-20.</p>}
-          {i983Status === 'rejected' && <p>HR Feedback: {hrFeedback}</p>}
-        </div>
-      )}
+      {/* I-983 */}
+      <div>
+        <h3>I-983</h3>
+        {/* Similar logic for displaying status */}
+      </div>
 
-      {i983Status === 'approved' && (
-        <div>
-          <h3>I-20</h3>
-          <button onClick={() => handleUpload('i20')}>Upload I-20</button>
-          {i20Status === 'pending' && <p>Waiting for HR to approve your I-20.</p>}
-          {i20Status === 'approved' && <p>All documents have been approved.</p>}
-          {i20Status === 'rejected' && <p>HR Feedback: {hrFeedback}</p>}
-        </div>
-      )}
+      {/* I-20 */}
+      <div>
+        <h3>I-20</h3>
+        {/* Similar logic for displaying status */}
+      </div>
+
+      {/* Upload form */}
+      <div>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleUpload}>Upload</button>
+      </div>
     </div>
   );
-};
+}
 
 export default DocumentUploadPage;

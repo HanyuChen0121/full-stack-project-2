@@ -26,6 +26,13 @@ const emergencyContactSchema = new mongoose.Schema({
   relationship: String,
 });
 
+const documentSchema = new mongoose.Schema({
+  url: String, // URL or file path of the document
+  status: { type: String, default: 'Pending' }, // Document status (e.g., Pending, Approved, Rejected)
+  feedback: String, // Feedback from HR if rejected
+  uploadedAt: { type: Date, default: Date.now }, // Timestamp of document upload
+});
+
 const applicationDataSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
   firstName: String,
@@ -33,6 +40,7 @@ const applicationDataSchema = new mongoose.Schema({
   middleName: String,
   preferredName: String,
   profilePicture: String, // URL or file path
+  role: String,
   currentAddress: addressSchema,
   cellPhone: String,
   workPhone: String,
@@ -49,7 +57,7 @@ const applicationDataSchema = new mongoose.Schema({
   isUSCitizen: String,
   reference: referenceSchema,
   emergencyContacts: [emergencyContactSchema],
-  documents: [String], // URLs or file paths for uploaded documents
+  documents: [documentSchema], // Updated to use the new documentSchema
 });
 
 const ApplicationData = mongoose.model('ApplicationData', applicationDataSchema);

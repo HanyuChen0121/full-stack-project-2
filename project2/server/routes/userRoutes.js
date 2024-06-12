@@ -47,9 +47,11 @@ router.post('/login', async (req, res) => {
         }
 
         // Dispatch action to update userId in Redux store
-        
+        const applicationData = await ApplicationData.findOne({ email });
 
-        res.json({ message: 'Login successful' });
+        res.json({ message: 'Login successful',
+                applicationData
+         });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -92,4 +94,92 @@ router.post('/saveData', async (req, res) => {
     }
 });
 
+router.get('/employees', async (req, res) => {
+    try {
+      const employees = await ApplicationData.find().sort({ lastName: 1 }); // Sort alphabetically by last name
+      res.json(employees);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+
+router.get('/employees/:id', async (req, res) => {
+    try {
+      const employee = await ApplicationData.findById(req.params.id);
+      if (!employee) {
+        return res.status(404).json({ message: 'Employee not found' });
+      }
+      res.json(employee);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+});
+
+router.get('/employees/visa/in-progress', async (req, res) => {
+    try {
+        const inProgressEmployees = await ApplicationData.find({
+            'documents.status': 'Pending' // Employees with at least one pending document
+        });
+        res.json(inProgressEmployees);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Get all employees with visa status
+router.get('/employees/visa/all', async (req, res) => {
+    try {
+        const allVisaEmployees = await ApplicationData.find({
+            workAuthorization: { $ne: '' } // Example condition
+        });
+        res.json(allVisaEmployees);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Approve or reject a document
+router.post('/employees/visa/approve', async (req, res) => {
+    const { employeeId, documentId, approve, feedback } = req.body;
+
+    try {
+        const employee = await ApplicationData.findById(employeeId);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        // Find the document and update its status
+        const document = employee.documents.id(documentId);
+        if (!document) {
+            return res.status(404).json({ message: 'Document not found' });
+        }
+
+        document.status = approve ? 'Approved' : 'Rejected';
+        document.feedback = feedback;
+
+        await employee.save();
+        res.status(200).json({ message: 'Document status updated' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Send notification
+router.post('/employees/visa/notify', async (req, res) => {
+    const { employeeId, message } = req.body;
+
+    try {
+        const employee = await ApplicationData.findById(employeeId);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        // Logic to send email notification
+        // ...
+
+        res.status(200).json({ message: 'Notification sent' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 module.exports = router;

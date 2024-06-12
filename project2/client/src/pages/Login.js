@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateUserEmail } from '../reducers/employeeSlice.js';
+import { updateUserEmail, setEmployeeData, resetState } from '../reducers/employeeSlice.js';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,11 +16,17 @@ const LoginPage = () => {
     .post('http://localhost:5000/api/users/login', { email, password })
     .then((response) => {
       if (response.data) {
+        dispatch(resetState());
         setMessage(response.data.message);
       }
       if (response.data) {
         dispatch(updateUserEmail(email));
-        navigate('/Onboarding'); // Redirect to the dashboard or another protected route
+        dispatch(setEmployeeData(response.data.applicationData));
+        if (response.data.applicationData.role === 'HR') {
+          navigate('/EmployeeProfiles');
+        } else {
+          navigate('/EmployeeManagement');
+        } // Redirect to the dashboard or another protected route
       }
     })
     .catch((error) => {
