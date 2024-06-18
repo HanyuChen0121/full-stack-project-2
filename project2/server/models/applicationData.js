@@ -41,6 +41,8 @@ const applicationDataSchema = new mongoose.Schema({
   preferredName: String,
   profilePicture: String, // URL or file path
   role: String,
+  applicationStatus: String,
+  applcationFeedback: String,
   currentAddress: addressSchema,
   cellPhone: String,
   workPhone: String,

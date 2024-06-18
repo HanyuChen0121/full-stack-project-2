@@ -23,8 +23,12 @@ const initialState = {
   dob: '',
   gender: '',
   resident: '',
+  applicationStatus: '',
+  applcationFeedback: '',
   workAuthorization: '',
   optReceipt: '',
+  eadReceipt: '', 
+  i983Receipt: '',
   visaTitle: '',
   visaStartDate: '',
   visaEndDate: '',
@@ -104,6 +108,10 @@ const employeeSlice = createSlice({
         const { isUSCitizen } = action.payload;
         state.isUSCitizen = isUSCitizen;
     },
+    updateApplicationStatus(state, action) {
+      const { applicationStatus } = action.payload;
+      state.applicationStatus = applicationStatus;
+  },
     resetState(state) {
       return initialState;
     }
@@ -125,6 +133,7 @@ export const {
   updateEmployment,
   updateWorkAuthorization, 
   updateCitizenshipStatus,
+  updateApplicationStatus,
   resetState,
 } = employeeSlice.actions;
 

@@ -25,7 +25,7 @@ const LoginPage = () => {
         if (response.data.applicationData.role === 'HR') {
           navigate('/EmployeeProfiles');
         } else {
-          navigate('/EmployeeManagement');
+          navigate('/Onboarding');
         } // Redirect to the dashboard or another protected route
       }
     })

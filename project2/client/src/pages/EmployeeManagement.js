@@ -41,7 +41,7 @@ function EmployeeManagement() {
 
   return (
     <div className="employee-management-container">
-      <h1 className="section-title">Employee Management</h1>
+      <h1 className="section-title">OnBoarding application</h1>
       <NameSection className="section" />
       <AddressSection className="section" />
       <ContactInfoSection className="section" />

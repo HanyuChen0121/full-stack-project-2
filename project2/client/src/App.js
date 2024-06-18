@@ -21,7 +21,10 @@ import EmployeeProfiles from './pages/EmployeeProfiles.js';
 import EmployeeProfile from './pages/EmployeeProfile.js';
 import VisaStatusManagement from './pages/VisaStatusManagement.js';
 import HiringManagement from './pages/HiringManagement.js';
+import Homepage from './pages/Homepage.js' 
+import EmployeeApplications from './pages/EmployeeApplications.js';
 import { useSelector } from 'react-redux'; // Import useSelector hook
+
 function App() {
   const userEmail = useSelector(state => state.employee.email); // Access email from Redux store
   return (
@@ -31,11 +34,12 @@ function App() {
         <Routes>
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="/Login" element={<Login />} />
           <Route path="/update-password" element={<UpdatePasswordPage />} />
           <Route path="/send-email" element={<SendEmailPage />} />
           <Route path="/CreateProduct" element={<CreateProduct />} />
-          <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
+          <Route path="/OnBoarding" element={<OnBoarding />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/product/edit/:id" element={<EditProduct />} />
           <Route path="/register" element={<RegisterPage />} /> {/* Add RegisterPage route */}
@@ -43,6 +47,7 @@ function App() {
           <Route path="/profile/:id" element={<EmployeeProfile />} />
           <Route path="/VisaStatusManagement" element={<VisaStatusManagement />} />
           <Route path="HiringManagement" element={<HiringManagement />} />
+          <Route path="EmployeeApplications" element={<EmployeeApplications />} />
         </Routes> 
       </div>
       <Footer />

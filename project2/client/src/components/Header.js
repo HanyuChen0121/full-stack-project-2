@@ -3,6 +3,8 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { resetState } from '../reducers/employeeSlice.js';
 import HiringManagement from '../pages/HiringManagement.js';
+import EmployeeProfiles from '../pages/EmployeeProfiles.js';
+import EmployeeApplications from '../pages/EmployeeApplications.js';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link from React Router
 import '../index.css';
 
@@ -24,9 +26,11 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/EmployeeManagement">Employee Management</Nav.Link>
+            {userRole !== 'HR' && (<Nav.Link as={Link} to="/Onboarding">OnBoarding application</Nav.Link>)}
             <Nav.Link as={Link} to="/VisaStatusManagement">Visa Status</Nav.Link>
             {userRole === 'HR' && <Nav.Link as={Link} to="/HiringManagement">Hiring Management</Nav.Link>}
+            {userRole === 'HR' && <Nav.Link as={Link} to="/EmployeeProfiles">EmployeeProfiles</Nav.Link>}
+            {userRole === 'HR' && <Nav.Link as={Link} to="/EmployeeApplications">EmployeeApplications</Nav.Link>}
           </Nav>
           {userEmail ? (
             <Nav>

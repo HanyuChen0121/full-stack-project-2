@@ -69,7 +69,7 @@ router.post('/saveData', async (req, res) => {
 
         // Add the userId to the userData
         userData.userId = user._id;
-
+        userData.applicationStatus = "Pending";
         // Find the application data by email
         let applicationData = await ApplicationData.findOne({ email });
 
@@ -77,7 +77,8 @@ router.post('/saveData', async (req, res) => {
         if (!applicationData) {
             applicationData = new ApplicationData({
                 email,
-                ...userData // Spread the userData received from Redux
+                ...userData, // Spread the userData received from Redux
+                applicationStatus: "Pending"
             });
         } else {
             // If application data exists, update it with the new userData
@@ -182,4 +183,25 @@ router.post('/employees/visa/notify', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+router.post('/employees/updateStatus', async (req, res) => {
+    const { id, status, feedback } = req.body;
+  
+    try {
+      const applicationData = await ApplicationData.findById(id);
+      if (!applicationData) {
+        return res.status(404).json({ message: 'Application data not found' });
+      }
+  
+      applicationData.applicationStatus = status;
+      if (status === 'Rejected') {
+        applicationData.applcationFeedback = feedback;
+      }
+  
+      await applicationData.save();
+      res.status(200).json({ message: 'Application status updated successfully' });
+    } catch (err) {
+      res.status(500).json({ message: 'Failed to update application status' });
+    }
+  });
 module.exports = router;
