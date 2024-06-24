@@ -5,6 +5,7 @@ import { resetState } from '../reducers/employeeSlice.js';
 import HiringManagement from '../pages/HiringManagement.js';
 import EmployeeProfiles from '../pages/EmployeeProfiles.js';
 import EmployeeApplications from '../pages/EmployeeApplications.js';
+import VisaDocuments from '../pages/visaDocduments.js';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link from React Router
 import '../index.css';
 
@@ -27,7 +28,7 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {userRole !== 'HR' && (<Nav.Link as={Link} to="/Onboarding">OnBoarding application</Nav.Link>)}
-            <Nav.Link as={Link} to="/VisaStatusManagement">Visa Status</Nav.Link>
+            <Nav.Link as={Link} to="/VisaDocuments">Visa Status</Nav.Link>
             {userRole === 'HR' && <Nav.Link as={Link} to="/HiringManagement">Hiring Management</Nav.Link>}
             {userRole === 'HR' && <Nav.Link as={Link} to="/EmployeeProfiles">EmployeeProfiles</Nav.Link>}
             {userRole === 'HR' && <Nav.Link as={Link} to="/EmployeeApplications">EmployeeApplications</Nav.Link>}

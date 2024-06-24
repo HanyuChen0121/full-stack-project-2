@@ -3,6 +3,18 @@ const router = express.Router();
 const User = require('../models/user');
 const ApplicationData = require('../models/applicationData');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); // Specify the uploads directory
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname); // Specify file name format
+    }
+});
+
+const upload = multer({ storage: storage });
 // User registration route
 router.post('/register', async (req, res) => {
     const { email, username, password } = req.body;
@@ -204,4 +216,83 @@ router.post('/employees/updateStatus', async (req, res) => {
       res.status(500).json({ message: 'Failed to update application status' });
     }
   });
+  
+router.post('/employees/visa/upload', upload.single('file'), async (req, res) => {
+    const { employeeId, documentType } = req.body;
+
+    try {
+        const employee = await ApplicationData.findById(employeeId);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        // Here you can save the file URL or other relevant information in your database
+        // For example, if you want to save the file URL in the employee's document field
+        // Update the document file name based on the documentType
+        switch (documentType) {
+            case 'opt':
+                employee.optFileName = req.file.filename;
+                employee.optStatus = 'Pending'; // Set status as needed
+                break;
+            case 'optEad':
+                employee.optEadFileName = req.file.filename;
+                employee.optEadStatus = 'Pending'; // Set status as needed
+                break;
+            case 'i983':
+                employee.i983FileName = req.file.filename;
+                employee.i983Status = 'Pending'; // Set status as needed
+                break;
+            case 'i20':
+                employee.i20FileName = req.file.filename;
+                employee.i20Status = 'Pending'; // Set status as needed
+                break;
+            default:
+                return res.status(400).json({ message: 'Invalid document type' });
+        }
+
+        await employee.save();
+
+        res.status(200).json({ message: `${documentType} file uploaded successfully` });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to upload file' });
+    }
+});
+
+router.post('/employees/updateStatus', async (req, res) => {
+    const { id, feedback, documentType, status } = req.body;
+
+    try {
+        const applicationData = await ApplicationData.findById(id);
+        if (!applicationData) {
+            return res.status(404).json({ message: 'Application data not found' });
+        }
+
+        switch (documentType) {
+            case 'opt':
+                applicationData.optStatus = status;
+                break;
+            case 'optEad':
+                applicationData.optEadStatus = status;
+                break;
+            case 'i20':
+                applicationData.i20Status = status;
+                break;
+            case 'i983':
+                applicationData.i983Status = status;
+                break;
+            default:
+                return res.status(400).json({ message: 'Invalid document type' });
+        }
+
+        if (status === 'Rejected') {
+            applicationData.documentFeedback = feedback;
+        }
+
+        await applicationData.save();
+        res.status(200).json({ message: 'Document status updated successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to update document status' });
+    }
+});
 module.exports = router;

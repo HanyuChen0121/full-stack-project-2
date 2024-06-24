@@ -23,6 +23,9 @@ import VisaStatusManagement from './pages/VisaStatusManagement.js';
 import HiringManagement from './pages/HiringManagement.js';
 import Homepage from './pages/Homepage.js' 
 import EmployeeApplications from './pages/EmployeeApplications.js';
+import VisaDocuments from './pages/visaDocduments.js';
+import EmployeeDocuments from './pages/EmployeeDocuments.js';
+import EmployeeDocument from './pages/EmployeeDocument.js';
 import { useSelector } from 'react-redux'; // Import useSelector hook
 
 function App() {
@@ -46,8 +49,11 @@ function App() {
           <Route path="/EmployeeProfiles" element={<EmployeeProfiles />} /> {/* Add RegisterPage route */}
           <Route path="/profile/:id" element={<EmployeeProfile />} />
           <Route path="/VisaStatusManagement" element={<VisaStatusManagement />} />
-          <Route path="HiringManagement" element={<HiringManagement />} />
-          <Route path="EmployeeApplications" element={<EmployeeApplications />} />
+          <Route path="/HiringManagement" element={<HiringManagement />} />
+          <Route path="/EmployeeApplications" element={<EmployeeApplications />} />
+          <Route path="/VisaDocuments" element={<VisaDocuments />} />
+          <Route path="/EmployeeDocuments" element={<EmployeeDocuments />} />
+          <Route path="/document/:id" element={<EmployeeDocument />} />
         </Routes> 
       </div>
       <Footer />

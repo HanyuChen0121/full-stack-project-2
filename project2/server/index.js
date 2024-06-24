@@ -4,7 +4,7 @@ const productRoutes = require('./routes/product');
 const userRoutes = require('./routes/userRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const cors = require('cors');
-
+const multer = require('multer'); 
 const app = express();
 const port = 5000;
 
